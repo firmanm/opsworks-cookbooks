@@ -41,11 +41,11 @@ defaults
         
 # Set up application listeners here.
 <% if node[:haproxy][:rails_backends].blank? && node[:haproxy][:php_backends].blank? && node[:haproxy][:nodejs_backends].blank? && node[:haproxy][:static_backends].blank? && node[:haproxy][:java_backends].blank? -%>
-listen application 0.0.0.0:80
+#listen application 0.0.0.0:80
   # configure a fake backend as long as there are no real ones
   # this way HAProxy will not fail on a config check
-  balance <%= node[:haproxy][:balance] %>
-  server localhost 127.0.0.1:8080 weight 1 maxconn 5 check
+  # balance <%= node[:haproxy][:balance] %>
+  # server localhost 127.0.0.1:8080 weight 1 maxconn 5 check
 <% else -%>
 
 <% if !node[:haproxy][:rails_backends].empty? -%>
