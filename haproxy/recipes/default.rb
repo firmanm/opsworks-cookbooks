@@ -36,13 +36,13 @@ template '/etc/haproxy/haproxy.cfg' do
   notifies :restart, "service[haproxy]"
 end
 
-template "/etc/haproxy/server.pem" do
-  source    "server.pem.erb"
-  owner     'root'
-  group     'root'
-  mode      0600
-  notifies  :restart, "service[haproxy]"
-end
+#template "/etc/haproxy/server.pem" do
+#  source    "server.pem.erb"
+#  owner     'root'
+#  group     'root'
+#  mode      0600
+#  notifies  :restart, "service[haproxy]"
+#end
 
 service 'haproxy' do
   action [:enable, :start]
