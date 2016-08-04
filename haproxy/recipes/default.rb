@@ -13,7 +13,7 @@ package "haproxy" do
   retries 3
   retry_delay 5
 
-  version '1.6.5-1ppa1~trusty'
+  version '1.6.7-1ppa1~trusty'
   action  :install
 end
 
