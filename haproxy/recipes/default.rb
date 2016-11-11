@@ -1,26 +1,20 @@
-#
-# Cookbook Name:: haproxy
-# Recipe:: default
-#
-# Copyright 2009, Opscode, Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+#Install software-properties-common if not installed
+package 'software-properties-common' do
+  action :install
+end
+
+#Add PPA for haproxy 1.6 and update repo
+execute "add-ppa-update" do
+  command "add-apt-repository ppa:vbernat/haproxy-1.6 && apt-get update -y"
+  action :run
+end
+
 package "haproxy" do
   retries 3
   retry_delay 5
 
-  action :install
+  version '1.6.7-1ppa1~trusty'
+  action  :install
 end
 
 if platform?('debian','ubuntu')
@@ -41,6 +35,14 @@ template '/etc/haproxy/haproxy.cfg' do
   mode 0644
   notifies :restart, "service[haproxy]"
 end
+
+#template "/etc/haproxy/server.pem" do
+#  source    "server.pem.erb"
+#  owner     'root'
+#  group     'root'
+#  mode      0600
+#  notifies  :restart, "service[haproxy]"
+#end
 
 service 'haproxy' do
   action [:enable, :start]
